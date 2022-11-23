@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ListaGierSwitch:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ListaGierSwitch_jar</output-path>
+    <root id="archive" name="ListaGierSwitch.jar">
+      <element id="module-output" name="ListaGierSwitch" />
+    </root>
+  </artifact>
+</component>
