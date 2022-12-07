@@ -1,12 +1,15 @@
 package com.listagier;
 
+/**
+ * @Author Bartosz Sabała Angelus
+ * @ Ver. 1.0.5
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -30,6 +33,7 @@ public class Main extends JFrame {
         this.setLocation((szer - sizeWidthBorder) / 2, (wys - sizeHeightBorder) / 2);
 
         JMenu menuPlik = pasekMenu.add(new JMenu("Plik"));
+
         JMenuItem podmenuNowy = menuPlik.add("Nowy");
         menuPlik.addSeparator();
         JMenuItem podmenuOpen = menuPlik.add("Otworz");
@@ -37,6 +41,7 @@ public class Main extends JFrame {
         JMenuItem podmenuDelete = menuPlik.add("Usuń");
         menuPlik.addSeparator();
         JMenuItem podmenuExit = menuPlik.add("Wyjście");
+
 
         podmenuNowy.addActionListener(new ActionListener() {
             @Override
@@ -127,43 +132,42 @@ public class Main extends JFrame {
         });
 
         JMenu menuHelp = pasekMenu.add(new JMenu("Pomoc"));
-        JMenuItem podmenuHelpMe =menuHelp.add("Pomoc");
+        JMenuItem podmenuHelpMe = menuHelp.add("Pomoc");
         menuHelp.addSeparator();
-        JMenuItem podmenuInstructions =menuHelp.add("Instrukcja");
-        JMenuItem podmenuInformation =menuHelp.add("Informacje o wersji");
+        JMenuItem podmenuInstructions = menuHelp.add("Instrukcja");
+        JMenuItem podmenuInformation = menuHelp.add("Informacje o wersji");
 
         podmenuHelpMe.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Pomoc");
+                JOptionPane.showMessageDialog(null, "<html><u>Pomoc</u></html>", "Help", JOptionPane.PLAIN_MESSAGE);
+
             }
         });
         podmenuInstructions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Instrukcje dodawania gier");
+
+                JOptionPane.showMessageDialog(null, "<html><u>Miejscę na instrukcję dodawania gier w Aplikacji.</u></html>", "Instruction", JOptionPane.PLAIN_MESSAGE);
             }
         });
         podmenuInformation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Informacje o wersji");
+                JOptionPane.showMessageDialog(null, "<html><u>Informacje o wersji.</u></html>", "Version", JOptionPane.PLAIN_MESSAGE);
             }
         });
 
-
-
         initComponents();
 
-
         this.getContentPane().add(listaGier, BorderLayout.CENTER);
+        this.add(primaryPhoto);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("main icon.png"));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
-
     }
-
-
 
     // metoda do inicjalizacji komponentów
     public void initComponents() {
@@ -175,10 +179,9 @@ public class Main extends JFrame {
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
-        addToFile.addActionListener(new dodajDoPliku());
+        addToFile.addActionListener(new dodajMiejsceDoPliku());
         gameList.addActionListener(new openTheGameList());
         exitOnClick.addActionListener(new exitAndClose());
-
 
 
         layout.setVerticalGroup(
@@ -190,8 +193,9 @@ public class Main extends JFrame {
                                         .addComponent(gameList)
                                         .addComponent(exitOnClick)
                 )
-                         .addComponent(listaGier, 100, 800, 1000)
-
+                        .addComponent(jT)
+                         .addComponent(listaGier, 100, 500, 600)
+                         .addComponent(primaryPhoto)
         );
 
         layout.setHorizontalGroup(
@@ -202,7 +206,9 @@ public class Main extends JFrame {
                                         .addComponent(gameList)
                                         .addComponent(exitOnClick)
                         )
+                        .addComponent(jT, 1000, 1000, 1000)
                         .addComponent(listaGier, 100, 800, 1000)
+                        .addComponent(primaryPhoto)
                         );
     }
 
@@ -211,18 +217,51 @@ public class Main extends JFrame {
     JButton exitOnClick = new JButton("Zamknij program");
 
 
-
-
-    private JTextArea listaGier = new JTextArea("Gra 1 Gra 2", 20, 100);
+    private JTextArea listaGier = new JTextArea("Miejsce na notatki: ", 10, 60);
     private  JMenuBar pasekMenu = new JMenuBar();
+    private PrimaryPhoto primaryPhoto = new PrimaryPhoto();
 
 
-    private class dodajDoPliku implements  ActionListener {
 
+    String columns[] ={"number", "gameName", "physicalOfDigital", "finished", "price"};
+    String games[][] = {
+            {"Number", "Game Name", "Physical Or Digital", "Finished", "Price"},
+            {"1","Fifa 2020", "physical", "yes", "100"},
+            {"2","Wiedźmin 3 Complete Edition", "physical", "yes", "230"},
+            {"3","Pokemon Sword & expansion pack", "physical", "yes", "350"},
+            {"4","Call of Cthulhu", "physical", "yes", "0"},
+            {"5","Ys VIII  Lacrimosa of Dana", "physical", "yes", "0"},
+            {"6","Xenoblade Chronicles Definite Edition", "physical", "no", "0"},
+            {"7","The Legend of Zelda Breath of the Wild", "physical", "no", "230"},
+            {"8", "8.Diablo III: Eternal Collection", "physical", "yes", "149"},
+            {"9", "Final Fantasy X/X2 remastered", "physical", "no", "189"},
+            {"10", "Amazing Ring Fit", "physical", "no", "249"},
+            {"11", "Astral Chain", "physical", "yes", "0"},
+            {"12", "Dragon Quest XI: Echoes", "physical", "yes", "0"},
+            {"13", "Divinity Orginal Sin 2", "digital", "yes", "160"},
+            {"14", "God Eater 3", "digital", "yes", "140"},
+            {"15", "Vampyr", "physical", "yes", "0"},
+            {"16", "Call of Cthulhu", "physical", "yes", "80"},
+            {"17", "Tokyo Mirage Sessions", "physical", "no", "900"},
+            {"18", "Immortal Fenix Rising", "digital", "yes", "124"},
+            {"19", "Ni no Kuni Wrath of the White Witch ", "physical", "no", "34"},
+            {"20", "Ghostrunner ", "digital", "no", "34"},
+            {"20", "Ys IX: Monstrum Nox", "digital", "no", "124"}
+    };
+
+
+    private JTable jT= new JTable(games, columns);
+    JScrollPane pane = new JScrollPane(jT);
+
+    //Dodaje
+
+
+    private class dodajMiejsceDoPliku implements  ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Otwieram menu");
+            System.out.println("WOOW");
         }
+
     }
 
     private class openTheGameList implements ActionListener {
@@ -246,10 +285,7 @@ public class Main extends JFrame {
             }
         }
     }
-
-
-
-
+    
     private class exitAndClose implements ActionListener  {
 
         @Override
@@ -258,21 +294,32 @@ public class Main extends JFrame {
         }
     }
 
-    public static void main(String[] args)  {
-        PrintWriter doZapisywaniaPlikow = null;
-        try {
-            doZapisywaniaPlikow = new PrintWriter(new FileWriter("dane.txt"));
-            doZapisywaniaPlikow.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+    class PrimaryPhoto extends JComponent {
+        Image img1;
+
+        public PrimaryPhoto() {
+            super();
+            img1 = new ImageIcon("files\\prph.jpg").getImage();
         }
+        public void paintComponent(Graphics g) {
+            g.drawImage(img1, 100, 100, null);
+
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.drawImage(img1, 100, 100, 100, 80, this);
+
+        }
+    }
+    public static void main(String[] args) throws IOException {
+
         try {
             new Main().setVisible(true);
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
+
+
 
 
 
